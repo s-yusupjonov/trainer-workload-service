@@ -1,6 +1,6 @@
 package com.gym.workload.logging;
 
-import com.gym.workload.dto.WorkloadEventRequest;
+import com.gym.workload.dto.request.WorkloadEventRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

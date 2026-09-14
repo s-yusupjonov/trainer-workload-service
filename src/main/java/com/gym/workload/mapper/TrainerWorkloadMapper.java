@@ -1,10 +1,10 @@
 package com.gym.workload.mapper;
 
-import com.gym.workload.domain.TrainerWorkload;
-import com.gym.workload.dto.MonthSummary;
-import com.gym.workload.dto.MonthWorkloadResponse;
-import com.gym.workload.dto.TrainerWorkloadSummaryResponse;
-import com.gym.workload.dto.YearSummary;
+import com.gym.workload.dto.response.MonthSummary;
+import com.gym.workload.dto.response.MonthWorkloadResponse;
+import com.gym.workload.dto.response.TrainerWorkloadSummaryResponse;
+import com.gym.workload.dto.response.YearSummary;
+import com.gym.workload.model.TrainerWorkload;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

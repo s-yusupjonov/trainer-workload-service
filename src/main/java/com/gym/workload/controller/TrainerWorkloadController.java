@@ -1,9 +1,9 @@
 package com.gym.workload.controller;
 
-import com.gym.workload.dto.ErrorResponse;
-import com.gym.workload.dto.MonthWorkloadResponse;
-import com.gym.workload.dto.TrainerWorkloadSummaryResponse;
-import com.gym.workload.dto.WorkloadEventRequest;
+import com.gym.workload.dto.request.WorkloadEventRequest;
+import com.gym.workload.dto.response.ErrorResponse;
+import com.gym.workload.dto.response.MonthWorkloadResponse;
+import com.gym.workload.dto.response.TrainerWorkloadSummaryResponse;
 import com.gym.workload.service.TrainerWorkloadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -72,8 +72,8 @@ public class TrainerWorkloadController {
     })
     @GetMapping("/{username}/{year}/{month}")
     public ResponseEntity<MonthWorkloadResponse> getMonthSummary(@PathVariable String username,
-                                                                  @PathVariable int year,
-                                                                  @PathVariable int month) {
+                                                                 @PathVariable int year,
+                                                                 @PathVariable int month) {
         return ResponseEntity.ok(trainerWorkloadService.getMonthSummary(username, year, month));
     }
 }

@@ -2,15 +2,16 @@ package com.gym.workload.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gym.workload.config.SecurityConfig;
-import com.gym.workload.dto.ActionType;
-import com.gym.workload.dto.MonthSummary;
-import com.gym.workload.dto.MonthWorkloadResponse;
-import com.gym.workload.dto.TrainerWorkloadSummaryResponse;
-import com.gym.workload.dto.WorkloadEventRequest;
-import com.gym.workload.dto.YearSummary;
+import com.gym.workload.dto.request.ActionType;
+import com.gym.workload.dto.request.WorkloadEventRequest;
+import com.gym.workload.dto.response.MonthSummary;
+import com.gym.workload.dto.response.MonthWorkloadResponse;
+import com.gym.workload.dto.response.TrainerWorkloadSummaryResponse;
+import com.gym.workload.dto.response.YearSummary;
 import com.gym.workload.exception.InvalidRequestException;
 import com.gym.workload.exception.ResourceNotFoundException;
 import com.gym.workload.security.JwtAuthenticationEntryPoint;
+import com.gym.workload.security.JwtAuthenticationFilter;
 import com.gym.workload.security.JwtTokenValidator;
 import com.gym.workload.security.SecurityErrorResponseWriter;
 import com.gym.workload.service.TrainerWorkloadService;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Duration;
@@ -39,7 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TrainerWorkloadController.class)
-@Import({SecurityConfig.class, JwtTokenValidator.class, SecurityErrorResponseWriter.class, JwtAuthenticationEntryPoint.class})
+@ActiveProfiles("test")
+@Import({SecurityConfig.class, JwtAuthenticationFilter.class, JwtTokenValidator.class,
+        SecurityErrorResponseWriter.class, JwtAuthenticationEntryPoint.class})
 class TrainerWorkloadControllerTest {
 
     @Autowired

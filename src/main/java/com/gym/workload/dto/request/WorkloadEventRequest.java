@@ -1,4 +1,4 @@
-package com.gym.workload.dto;
+package com.gym.workload.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

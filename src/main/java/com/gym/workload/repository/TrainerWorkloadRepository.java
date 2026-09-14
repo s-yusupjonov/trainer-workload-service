@@ -1,6 +1,6 @@
 package com.gym.workload.repository;
 
-import com.gym.workload.domain.TrainerWorkload;
+import com.gym.workload.model.TrainerWorkload;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

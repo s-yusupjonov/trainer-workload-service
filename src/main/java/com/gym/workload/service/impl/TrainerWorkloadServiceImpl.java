@@ -1,18 +1,21 @@
-package com.gym.workload.service;
+package com.gym.workload.service.impl;
 
-import com.gym.workload.domain.TrainerWorkload;
-import com.gym.workload.dto.ActionType;
-import com.gym.workload.dto.MonthWorkloadResponse;
-import com.gym.workload.dto.TrainerWorkloadSummaryResponse;
-import com.gym.workload.dto.WorkloadEventRequest;
+import com.gym.workload.dto.request.ActionType;
+import com.gym.workload.dto.request.WorkloadEventRequest;
+import com.gym.workload.dto.response.MonthWorkloadResponse;
+import com.gym.workload.dto.response.TrainerWorkloadSummaryResponse;
 import com.gym.workload.exception.InvalidRequestException;
 import com.gym.workload.exception.ResourceNotFoundException;
 import com.gym.workload.mapper.TrainerWorkloadMapper;
+import com.gym.workload.model.TrainerWorkload;
 import com.gym.workload.repository.TrainerWorkloadRepository;
+import com.gym.workload.service.TrainerWorkloadService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.OptionalInt;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Service
 public class TrainerWorkloadServiceImpl implements TrainerWorkloadService {
@@ -39,9 +42,9 @@ public class TrainerWorkloadServiceImpl implements TrainerWorkloadService {
         int month = trainingDate.getMonthValue();
 
         if (request.getActionType() == ActionType.ADD) {
-            workload.addMinutes(year, month, request.getTrainingDuration());
+            addMinutes(workload, year, month, request.getTrainingDuration());
         } else {
-            workload.subtractMinutes(year, month, request.getTrainingDuration());
+            subtractMinutes(workload, year, month, request.getTrainingDuration());
         }
     }
 
@@ -68,5 +71,30 @@ public class TrainerWorkloadServiceImpl implements TrainerWorkloadService {
         }
 
         return mapper.toMonthResponse(workload, year, month, minutes.getAsInt());
+    }
+
+    private void addMinutes(TrainerWorkload workload, int year, int month, int minutes) {
+        workload.getMinutesByYearMonth()
+                .computeIfAbsent(year, key -> new ConcurrentHashMap<>())
+                .merge(month, minutes, Integer::sum);
+    }
+
+    private void subtractMinutes(TrainerWorkload workload, int year, int month, int minutes) {
+        ConcurrentMap<Integer, Integer> months = workload.getMinutesByYearMonth().get(year);
+        if (months == null) {
+            return;
+        }
+
+        months.compute(month, (key, current) -> {
+            if (current == null) {
+                return null;
+            }
+            int updated = Math.max(0, current - minutes);
+            return updated == 0 ? null : updated;
+        });
+
+        if (months.isEmpty()) {
+            workload.getMinutesByYearMonth().remove(year, months);
+        }
     }
 }

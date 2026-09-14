@@ -1,6 +1,6 @@
 package com.gym.workload.exception;
 
-import com.gym.workload.dto.ErrorResponse;
+import com.gym.workload.dto.response.ErrorResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;

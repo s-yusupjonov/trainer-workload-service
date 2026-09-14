@@ -1,4 +1,4 @@
-package com.gym.workload.domain;
+package com.gym.workload.model;
 
 import java.util.Map;
 import java.util.OptionalInt;
@@ -43,29 +43,8 @@ public class TrainerWorkload {
         this.active = isActive;
     }
 
-    public void addMinutes(int year, int month, int minutes) {
-        minutesByYearMonth
-                .computeIfAbsent(year, key -> new ConcurrentHashMap<>())
-                .merge(month, minutes, Integer::sum);
-    }
-
-    public void subtractMinutes(int year, int month, int minutes) {
-        ConcurrentMap<Integer, Integer> months = minutesByYearMonth.get(year);
-        if (months == null) {
-            return;
-        }
-
-        months.compute(month, (key, current) -> {
-            if (current == null) {
-                return null;
-            }
-            int updated = Math.max(0, current - minutes);
-            return updated == 0 ? null : updated;
-        });
-
-        if (months.isEmpty()) {
-            minutesByYearMonth.remove(year, months);
-        }
+    public ConcurrentMap<Integer, ConcurrentMap<Integer, Integer>> getMinutesByYearMonth() {
+        return minutesByYearMonth;
     }
 
     public OptionalInt getMinutes(int year, int month) {

@@ -1,7 +1,7 @@
 package com.gym.workload.logging;
 
-import com.gym.workload.dto.ActionType;
-import com.gym.workload.dto.WorkloadEventRequest;
+import com.gym.workload.dto.request.ActionType;
+import com.gym.workload.dto.request.WorkloadEventRequest;
 import com.gym.workload.exception.ResourceNotFoundException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;

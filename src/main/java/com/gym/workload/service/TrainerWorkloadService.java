@@ -1,8 +1,8 @@
 package com.gym.workload.service;
 
-import com.gym.workload.dto.MonthWorkloadResponse;
-import com.gym.workload.dto.TrainerWorkloadSummaryResponse;
-import com.gym.workload.dto.WorkloadEventRequest;
+import com.gym.workload.dto.request.WorkloadEventRequest;
+import com.gym.workload.dto.response.MonthWorkloadResponse;
+import com.gym.workload.dto.response.TrainerWorkloadSummaryResponse;
 
 public interface TrainerWorkloadService {
 

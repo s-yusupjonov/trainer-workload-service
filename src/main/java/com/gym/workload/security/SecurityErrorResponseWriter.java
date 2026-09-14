@@ -1,7 +1,7 @@
 package com.gym.workload.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gym.workload.dto.ErrorResponse;
+import com.gym.workload.dto.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;

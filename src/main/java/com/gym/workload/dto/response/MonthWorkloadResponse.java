@@ -1,12 +1,14 @@
-package com.gym.workload.dto;
+package com.gym.workload.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MonthSummary {
+public class MonthWorkloadResponse {
 
+    private final String trainerUsername;
+    private final int year;
     private final int month;
     private final int trainingSummaryDuration;
 }

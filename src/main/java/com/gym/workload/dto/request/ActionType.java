@@ -1,4 +1,4 @@
-package com.gym.workload.dto;
+package com.gym.workload.dto.request;
 
 public enum ActionType {
     ADD,
