@@ -6,10 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -26,11 +28,12 @@ class WorkloadEventDeadLetterPublisherTest {
     @Mock
     private JmsTemplate jmsTemplate;
 
+    @InjectMocks
     private WorkloadEventDeadLetterPublisher publisher;
 
     @BeforeEach
     void setUp() {
-        publisher = new WorkloadEventDeadLetterPublisher(jmsTemplate, DLQ);
+        ReflectionTestUtils.setField(publisher, "deadLetterQueue", DLQ);
     }
 
     @Test
@@ -48,5 +51,12 @@ class WorkloadEventDeadLetterPublisherTest {
 
         verify(session).createTextMessage("{\"trainerUsername\":null}");
         verify(textMessage).setStringProperty("rejectionReason", "trainerUsername must not be blank");
+    }
+
+    @Test
+    void publishShouldWireDeadLetterQueueFromConstructorViaMockitoInjection() {
+        assertThat(ReflectionTestUtils.getField(publisher, "deadLetterQueue"))
+                .as("deadLetterQueue field should be the value set on the Mockito-constructed publisher")
+                .isEqualTo(DLQ);
     }
 }
