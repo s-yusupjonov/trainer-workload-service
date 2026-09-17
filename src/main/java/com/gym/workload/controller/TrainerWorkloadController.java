@@ -1,6 +1,5 @@
 package com.gym.workload.controller;
 
-import com.gym.workload.dto.request.WorkloadEventRequest;
 import com.gym.workload.dto.response.ErrorResponse;
 import com.gym.workload.dto.response.MonthWorkloadResponse;
 import com.gym.workload.dto.response.TrainerWorkloadSummaryResponse;
@@ -11,41 +10,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/trainer-workloads")
-@Tag(name = "Trainer Workloads", description = "Operations for recording and retrieving trainer workload data")
+@Tag(name = "Trainer Workloads", description = "Operations for retrieving trainer workload data")
 public class TrainerWorkloadController {
 
     private final TrainerWorkloadService trainerWorkloadService;
 
     public TrainerWorkloadController(TrainerWorkloadService trainerWorkloadService) {
         this.trainerWorkloadService = trainerWorkloadService;
-    }
-
-    @Operation(summary = "Record a trainer workload event",
-            description = "Adds or removes training minutes for a trainer in a given month")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Event recorded successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request payload",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Missing or invalid authentication token",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = "Caller not permitted",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @PostMapping
-    public ResponseEntity<Void> recordEvent(@Valid @RequestBody WorkloadEventRequest request) {
-        trainerWorkloadService.recordEvent(request);
-        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Get the full workload summary for a trainer",
